@@ -10,6 +10,9 @@ sys.path.append(parent_dir)
 
 from predictor.predict_data import LoadAndPredict
 predictor =LoadAndPredict()
+from train.train_data import Clustering
+from load.load_data import WebDataRetriever
+from preprocess.preprocess_data import DataPreprocessor
 
 app = FastAPI()
 
@@ -52,9 +55,27 @@ def predict_clusters(item: data_market):
 
     n_clusters = 4  
 
-    predicted_cluster = LoadAndPredict.predict_clusters(data = data, n_clusters = n_clusters)
+    predicted_cluster = LoadAndPredict.predict_clusters(data = data, n_clusters = n_clusters, models_dir='../models/')
     return {"predicted_cluster": int(predicted_cluster[0])}
     
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+@app.get("/train_model", status_code=200)
+def train_model():
+    try: 
+        URL = 'https://raw.githubusercontent.com/juanchavezs/mlops_jpcs_proyectofinal/master/marketing_campaign.csv'
+        DELIMITER = '\t'
+        data_retriever = WebDataRetriever(url= URL, delimiter_url= DELIMITER , data_path= '../data/')
+        data = data_retriever.retrieve_data()
+
+        data_transformer = DataPreprocessor()
+        data_transform = DataPreprocessor.feature_generation(data)
+
+        clustering = Clustering()
+        clustering.make_models(data_transform)
+    except: 
+        print('No')
+
+    return "Trained model ready to go!"
+
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="127.0.0.1", port=8000)
