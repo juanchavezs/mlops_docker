@@ -142,7 +142,10 @@ Make sure you have Python installed on your system.
 Install the required dependencies using the following command:
 
 ```
-    pip install -r requirements.txt
+    pip install -r requirements-310.txt
+    pip install -r requirements-api.txt
+    pip install -r requirements-dev.txt
+
 ```
 
 Run the desired test script using the following command:
