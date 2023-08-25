@@ -244,5 +244,5 @@ This class is equipped with five distinct methods: debug, info, warning, error, 
 You are in the MLOPS_DOCKER/ directory (root folder), ensure you are in root. Then Run:
 
     ```
-    docker build -t fraud-image ./app_knn/
+    docker build -t knn-image ./app_knn/
     ```
