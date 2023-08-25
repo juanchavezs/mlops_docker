@@ -4,7 +4,8 @@
 
 ### Teacher: Carlos Mejia
 
-### Student: Francisco  Javier Torres Zenón A01688757
+### Student: Juan Pablo Chavez Sainz
+
 
 # Customer Personality Analysis
 
