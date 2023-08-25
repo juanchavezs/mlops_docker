@@ -1,0 +1,28 @@
+2023-08-24 17:54:09,984:API Controller:logging:INFO:Cluster Classifiers is ready!
+2023-08-24 17:55:14,626:API Controller:logging:INFO:Cluster Classifiers is ready!
+2023-08-24 17:55:28,360:API Controller:logging:INFO:Received prediction request.
+2023-08-24 17:55:28,375:API Controller:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 17:56:05,499:API Controller:logging:INFO:Received prediction request.
+2023-08-24 17:56:05,499:API Controller:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 17:56:37,609:API Controller:logging:INFO:Training model started.
+2023-08-24 17:56:37,636:API Controller:logging:ERROR:An error occurred: DataPreprocessor.feature_generation() missing 1 required positional argument: 'data'
+2023-08-24 17:56:40,204:API Controller:logging:INFO:Training model started.
+2023-08-24 17:56:40,242:API Controller:logging:ERROR:An error occurred: DataPreprocessor.feature_generation() missing 1 required positional argument: 'data'
+2023-08-24 17:57:46,804:API Controller:logging:INFO:Received prediction request.
+2023-08-24 17:57:46,804:API Controller:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 18:10:57,908:API Logs:logging:INFO:Cluster Classifiers is ready!
+2023-08-24 18:11:08,847:API Logs:logging:INFO:Received prediction request.
+2023-08-24 18:11:08,862:API Logs:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 18:11:18,916:API Logs:logging:INFO:Received prediction request.
+2023-08-24 18:11:18,916:API Logs:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 18:13:27,022:API Logs:logging:INFO:Training model started.
+2023-08-24 18:13:27,069:API Logs:logging:INFO:Training model completed.
+2023-08-24 18:13:37,837:API Logs:logging:INFO:Received prediction request.
+2023-08-24 18:13:37,852:API Logs:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 18:15:09,024:API Logs:logging:INFO:Received prediction request.
+2023-08-24 18:15:09,040:API Logs:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 18:18:21,298:API Logs:logging:INFO:Cluster Classifiers is ready!
+2023-08-24 18:18:33,793:API Logs:logging:INFO:Received prediction request.
+2023-08-24 18:18:33,793:API Logs:logging:ERROR:An error occurred: index 0 is out of bounds for axis 0 with size 0
+2023-08-24 18:24:40,633:API Logs:logging:INFO:Received prediction request.
+2023-08-24 18:24:40,987:API Logs:logging:INFO:Predicted cluster: 2

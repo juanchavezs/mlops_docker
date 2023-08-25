@@ -1,5 +1,5 @@
 # app(front-end)
-FROM python:3.11-slim
+FROM python:3.10
 
 WORKDIR /
 COPY . .

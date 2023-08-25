@@ -1,20 +1,5 @@
 import pandas as pd
 import os
-import logging
-import sys
-
-
-current_dir = os.getcwd()
-sys.path.append(current_dir+'/app_knn/')
-
-print('222222222222222222222222222222222222222222222')
-print(os.getcwd())
-
-print('8327e09217070937109273109710971209273109709173')
-from utilities.logging import MyLogger
-
-logger = MyLogger("Load Logs", logging.DEBUG)
-
 
 class WebDataRetriever:
     """
@@ -35,7 +20,7 @@ class WebDataRetriever:
     ```
     """
 
-    DATASETS_DIR = './app_knn/data/'  # Directory where data will be saved.
+    DATASETS_DIR = './data/'  # Directory where data will be saved.
     RETRIEVED_DATA = 'retrieved_data.csv'  # File name for the retrieved data.
 
     def __init__(self, url, data_path, delimiter_url):
@@ -44,37 +29,30 @@ class WebDataRetriever:
         self.delimiter_url = delimiter_url
 
     def retrieve_data(self):
+        """
+        Retrieves data from the specified URL, processes it, and stores it in a CSV file.
 
-        try:
-            # Logging data retrieval attempt
-            logger.info("Retrieving data from URL...")
+        Returns:
+            str: A message indicating the location of the stored data.
+        """
+        # Loading data from specific URL
+        data = pd.read_csv(self.url , delimiter = self.delimiter_url)
 
-            # Loading data from specific URL
-            data = pd.read_csv(self.url, delimiter=self.delimiter_url)
+        # Create directory if it does not exist
+        if not os.path.exists(self.DATASETS_DIR):
+            os.makedirs(self.DATASETS_DIR)
+            print(f"Directory '{self.DATASETS_DIR}' created successfully.")
+        else:
+            print(f"Directory '{self.DATASETS_DIR}' already exists.")
 
-            # Create directory if it does not exist
-            if not os.path.exists(self.DATASETS_DIR):
-                os.makedirs(self.DATASETS_DIR)
-                logger.info(f"Directory '{self.DATASETS_DIR}' created successfully.")
-            else:
-                logger.info(f"Directory '{self.DATASETS_DIR}' already exists.")
-
-            # Save data to CSV file
-            data.to_csv(self.DATASETS_DIR + self.RETRIEVED_DATA, index=False)
-
-            # Logging data storage location
-            logger.info(f'Data stored in {self.DATASETS_DIR + self.RETRIEVED_DATA}')
-            
-            print(f'Data stored in {self.DATASETS_DIR + self.RETRIEVED_DATA}')
-     
-        except Exception as e:
-            # Logging errors during data retrieval and storage
-            logger.error(f"An error occurred during data retrieval and storage: {str(e)}")
-
+        # Save data to CSV file
+        data.to_csv(self.DATASETS_DIR + self.RETRIEVED_DATA, index=False)
+        print(f'Data stored in {self.DATASETS_DIR + self.RETRIEVED_DATA}')
+        return data
     
 # Example
 URL = 'https://raw.githubusercontent.com/juanchavezs/mlops_jpcs_proyectofinal/master/marketing_campaign.csv'
 DELIMITER = '\t'
-data_retriever = WebDataRetriever(url=URL, data_path='/data/', delimiter_url=DELIMITER)
-
-data_retriever.retrieve_data()
+data_retriever = WebDataRetriever(url= URL, delimiter_url= DELIMITER , data_path= '../data/')
+result = data_retriever.retrieve_data()
+print(result)

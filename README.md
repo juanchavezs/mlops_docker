@@ -1,3 +1,11 @@
+# ITESM Instituto Tecnológico de Estudios Superiores de Monterrey
+
+## Course: MLOps Machine Learning Operations
+
+### Teacher: Carlos Mejia
+
+### Student: Francisco  Javier Torres Zenón A01688757
+
 # Customer Personality Analysis
 
 # Final Proyect
@@ -45,11 +53,10 @@ There are already so many solutions in Kaggle, it is difficult to find which one
 
 A tool (API) that can do training on a new dataset and identify the Customer segment for one person.
 
-## Pytest (Unit test)
 
-You can find the tests in the [tests](tests) folder.
+# Setup 
 
-### Virtual environment
+## Virtual environment
 
 1. Create a virtual environment with `Python 3.10+`
     * Create venv
@@ -71,7 +78,11 @@ You can find the tests in the [tests](tests) folder.
     * Install the packages
 
         ```bash
-        pip install requirements.txt
+        pip install -r requirements-310.txt
+
+        pip install -r requirements-dev.txt
+        
+        pip install -r requirements-api.txt
         ```
 
     > **NOTE:**
@@ -104,7 +115,24 @@ This script tests the existence of trained models. It verifies whether the saved
     4. *test_remove_outliers.py*:     
 This script tests the outlier removal function. It validates whether the outliers are properly identified and removed, resulting in a clean dataset.
 
-#### Running the Tests
+## Pre-commits
+
+Pre-commits are automated checks that run on your code before you commit changes, helping ensure code quality and consistency. In this guide, we'll use the pre-commit tool to set up pre-commits for Python projects in Visual Studio Code (VSC).
+
+### Step 1: Install pre-commit 
+
+First, you need to install the pre-commit tool on your system. Open your terminal or command prompt and run the following command:
+
+    pip install pre-commit
+
+### Step 2: Initialize Pre-Commit for Your Project
+
+After reviewing the .pre-commit-config.yaml file, to look for hooks configured initialize pre-commit for the project. Open your terminal or command prompt, navigate to the root directory of your project, and run the following commands:
+
+        pre-commit install
+
+
+## Running the Tests
 
 To run the tests, follow these steps:
 
@@ -124,30 +152,93 @@ Run the desired test script using the following command:
 
 The test script will execute and provide output indicating whether the tests have passed or failed.
 
-### pre-commit Configuration
+## Test API
 
-The `pre-commit` system allows you to automate code review and formatting tasks before committing to your repository. This ensures that the code meets certain standards and quality before being recorded in the repository's history.
+1. Change to root directory.
 
-#### Steps to Set Up pre-commit in Your Project
+2. Run uvicorn app.main:app --reload in the terminal.
 
-1. **Installation**: Make sure you have `pre-commit` installed. If you don't, you can install it using pip:
+## Checking endpoints
 
-   ```sh
-   pip install pre-commit
+1. Access http://127.0.0.1:8000/, you will see a message like this "CLuster Classifier is all ready to go!"
 
-**Additional Resources**
+![Health check](docs/Captura.PNG)
 
-    pre-commit Repository: 
-        https://github.com/pre-commit/pre-commit
+2. Access http://127.0.0.1:8000/docs, the browser will display something like this:
 
-        List of pre-commit Compatible Hooks: 
-        https://pre-commit.com/hooks.html
-        
-        isort Documentation: 
-        https://github.com/pre-commit/mirrors-isort
-        
-        autoflake Documentation: 
-        https://github.com/pre-commit/mirrors-autoflake
-        
-        autopep8 Documentation: 
-        https://github.com/pre-commit/mirrors-autopep8
+![Docs](docs/docs.PNG)
+
+3. Try running the classify endpoint by providing some data:
+
+Body: 
+
+``` json
+    {
+    "Education": 1,
+    "Income": 50000,
+    "Kidhome": 0,
+    "Teenhome": 0,
+    "Recency": 30,
+    "MntWines": 100,
+    "MntFruits": 10,
+    "MntMeatProducts": 200,
+    "MntFishProducts": 20,
+    "MntSweetProducts": 5,
+    "MntGoldProds": 3,
+    "NumDealsPurchases": 2,
+    "NumWebPurchases": 5,
+    "NumCatalogPurchases": 3,
+    "NumStorePurchases": 2,
+    "NumWebVisitsMonth": 7,
+    "AcceptedCmp3": 0,
+    "AcceptedCmp4": 0,
+    "AcceptedCmp5": 0,
+    "AcceptedCmp1": 0,
+    "AcceptedCmp2": 0,
+    "Complain": 0,
+    "Response": 0,
+    "Age": 40,
+    "Years_Since_Registration": 5,
+    "Sum_Mnt": 500,
+    "Num_Accepted_Cmp": 1,
+    "Num_Total_Purchases": 10
+    }
+```
+
+![Response](docs/predicted_cluster.PNG)
+
+4. Running the Train endpoint:
+
+![Train_Model](docs/train_model.PNG)
+
+**Well done!!**
+
+## Logging
+
+We've established a class designed for simplified implementation of logging: the Logging CLASS.
+
+Within this class, there exists an initialization method that accepts three parameters: name, level, and module name. The 'name' parameter is utilized to generate a logger with the designated name. The 'level' parameter determines the logging level of the logger, with the default being logging.DEBUG. As for the module name, it is employed to specify the name of the log file, with the default set to 'logs/name.log'.
+
+Furthermore, the init method creates both a formatter, with a predefined format string, and a file handler using the specified module name. The formatter is then linked to the file handler, which subsequently becomes an addition to the logger.
+
+This class is equipped with five distinct methods: debug, info, warning, error, and critical. Each method corresponds to a specific logging level and is responsible for recording messages accordingly.
+
+### **To use the class:**
+
+```
+    import logging 
+    from app.utilities.logging import MyLogger
+    
+
+    # to instanciate the logging class
+    logfile = MyLogger("RetrieveFiles", logging.DEBUG, __name)
+```
+![Main_log](docs/main_log.PNG)
+
+### Deployment of the API with Docker and usage
+
+You are in the MLOPS_DOCKER/ directory (root folder), ensure you are in root. Then Run:
+
+    ```
+    docker build -t fraud-image ./app_knn/
+    ```

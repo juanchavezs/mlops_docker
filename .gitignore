@@ -3,9 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# CSV file
-files/
-
 #Data Files
 data/
 app/data
@@ -13,11 +10,8 @@ app/data
 #Alternative README.md
 README2.md  
 
-#pkl Files
-*.pkl
-
 #virtual environment
-venv310/
+venv/
 venv310/
 
 # C extensions
@@ -51,26 +45,6 @@ wheels/
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
 
 # Flask stuff:
 instance/

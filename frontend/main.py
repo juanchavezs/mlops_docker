@@ -19,23 +19,14 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 
-logger = MyLogger("Main_TEST", logging.DEBUG, __name__)
+logger = MyLogger("Main", logging.DEBUG, __name__)
 
 app = FastAPI()
 
 
 # ML model prediction function using the prediction API request
-def predict_fraud(input):
+def predict_cluster(input):
     url3 = "http://app.docker:8000/predict"
-
-    response = requests.post(url3, json=input)
-    response = response.text
-
-    return response
-
-
-def predict_fraud_KNN(input):
-    url3 = "http://appknn.docker:8001/predictKNN"
 
     response = requests.post(url3, json=input)
     response = response.text
@@ -49,13 +40,12 @@ async def healthcheck():
     return "Front End  Fraud Classifier is all ready to go!"
 
 
-@app.post("/classify")
-def classify(payload: dict = Body(...)):
+@app.post("/predict")
+def predict(payload: dict = Body(...)):
     logger.debug(f"Incoming input in the front end: {payload}")
-    response = predict_fraud(payload)
+    response = predict_cluster(payload)
     logger.debug(f"Prediction: {response}")
     return {"response": response}
-
 
 @app.get("/healthcheck")
 async def v1_healhcheck():
@@ -78,11 +68,21 @@ def train_model():
 
     return response
 
+@app.get("/train_model_5c", status_code=200)
+def train_model():
+    url3 = "http://app.docker:8001/train_model_5c"
+    logger.info("Training model proccess...START")
+    response = requests.request("GET", url3)
+    response = response.text
+    logger.info(f"Training model process ENDED. Result: {response}")
 
-@app.post("/classifyKNN")
-def classifyKNN(payload: dict = Body(...)):
+    return response
+
+
+@app.post("/predict")
+def predictKNN(payload: dict = Body(...)):
     logger.debug(f"Incoming input in the front end: {payload}")
-    response = predict_fraud_KNN(payload)
+    response = predict_cluster_KNN(payload)
     logger.debug(f"Prediction: {response}")
     return {"response": response}
 

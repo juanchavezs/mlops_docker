@@ -20,10 +20,10 @@ app = FastAPI()
 
 @app.get('/', status_code=200)
 async def healthcheck():
-    logger.info("Cluster Classifiers is ready!")
-    return 'Cluster Classifiers is ready!'
+    logger.info("5c Cluster Classifiers is ready!")
+    return '5c Cluster Classifiers is ready!'
 
-@app.post("/predict/")
+@app.post("/predict_5c/")
 def predict_clusters(item: data_market):
     try: 
         # Logging prediction request
@@ -59,7 +59,7 @@ def predict_clusters(item: data_market):
             item.Num_Total_Purchases
         ]])
 
-        n_clusters = 4  
+        n_clusters = 5 
 
         predicted_cluster = LoadAndPredict.predict_clusters(data = data, n_clusters = n_clusters, models_dir='/app_knn/models/')
         
@@ -73,18 +73,18 @@ def predict_clusters(item: data_market):
         return {"error": "An error occurred during prediction."}
 
     
-@app.get("/train_model", status_code=200)
+@app.get("/train_model_5c", status_code=200)
 def train_model():
     try:
         # Logging training start
         logger.info("Training model started.")
-        
+
         URL = 'https://raw.githubusercontent.com/juanchavezs/mlops_jpcs_proyectofinal/master/marketing_campaign.csv'
         DELIMITER = '\t'
-        data_retriever = WebDataRetriever(url= URL, delimiter_url= DELIMITER , data_path= '../data/')
-        result = data_retriever.retrieve_data()
+        data_retriever = WebDataRetriever(url= URL, delimiter_url= DELIMITER , data_path= '/app_knn_5c/models/')
+        data = data_retriever.retrieve_data()
 
-        data_transform = DataPreprocessor.feature_generation(self='',data=result)
+        data_transform = DataPreprocessor.feature_generation(self='',data=data)
 
         clustering = Clustering()
         clustering.make_models(data_transform)
