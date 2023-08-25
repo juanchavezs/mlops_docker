@@ -1,29 +1,21 @@
 import os
 import sys
-from models.models import data_market
-import pandas as pd
-from fastapi import FastAPI
 import logging
+import pandas as pd
 
-# Configure logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter('%(asctime)s:%(name)s:%(module)s:%(levelname)s:%(message)s')
-file_handler = logging.FileHandler('/itesm_mlops/logs/api_controler.log')
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler) 
+from models.models import data_market
+from fastapi import FastAPI
+from predictor.predict_data import LoadAndPredict
+from train.train_data import Clustering
+from load.load_data import WebDataRetriever
+from preprocess.preprocess_data import DataPreprocessor
+from utilities.logging import MyLogger
 
 current_dir = os.getcwd()
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
-from predictor.predict_data import LoadAndPredict
-predictor =LoadAndPredict()
-from train.train_data import Clustering
-from load.load_data import WebDataRetriever
-from preprocess.preprocess_data import DataPreprocessor
-
+logger = MyLogger("API Logs", logging.DEBUG)
 app = FastAPI()
 
 @app.get('/', status_code=200)
@@ -69,7 +61,8 @@ def predict_clusters(item: data_market):
 
         n_clusters = 4  
 
-        predicted_cluster = LoadAndPredict.predict_clusters(data = data, n_clusters = n_clusters, models_dir='../models/')
+        predicted_cluster = LoadAndPredict.predict_clusters(data = data, n_clusters = n_clusters, models_dir='/app_knn/models/')
+        
         # Logging prediction result
         logger.info(f"Predicted cluster: {int(predicted_cluster[0])}")
         return {"predicted_cluster": int(predicted_cluster[0])}
@@ -88,11 +81,10 @@ def train_model():
 
         URL = 'https://raw.githubusercontent.com/juanchavezs/mlops_jpcs_proyectofinal/master/marketing_campaign.csv'
         DELIMITER = '\t'
-        data_retriever = WebDataRetriever(url= URL, delimiter_url= DELIMITER , data_path= '../data/')
+        data_retriever = WebDataRetriever(url= URL, delimiter_url= DELIMITER , data_path= '/app_knn/models/')
         data = data_retriever.retrieve_data()
 
-        data_transformer = DataPreprocessor()
-        data_transform = DataPreprocessor.feature_generation(data)
+        data_transform = DataPreprocessor.feature_generation(self='',data=data)
 
         clustering = Clustering()
         clustering.make_models(data_transform)

@@ -2,7 +2,18 @@ import joblib
 import logging
 import numpy as np
 import os
+import sys
+from utilities.logging import MyLogger
 
+
+# Add the parent directory to sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
+sys.path.append(parent_dir)
+sys.path.append(current_dir)
+
+
+logger = MyLogger("Predict Log", logging.DEBUG)
 
 class LoadAndPredict:
     """
@@ -15,14 +26,6 @@ class LoadAndPredict:
     load_kmeans_model(self, n_clusters): Load a KMeans clustering model.
     predict_clusters(self, data, n_clusters): Predict clusters using a loaded KMeans model.
     """
-    # Configure logging
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-
-    formatter = logging.Formatter('%(asctime)s:%(name)s:%(module)s:%(levelname)s:%(message)s')
-    file_handler = logging.FileHandler('/itesm_mlops/logs/predict_data.log')
-    file_handler.setFormatter(formatter)
-    logger.addHandler(file_handler) 
     
     def predict_clusters(data, n_clusters, models_dir):
         """
@@ -44,31 +47,19 @@ class LoadAndPredict:
         - Return the array of predicted cluster labels.
         """
         try: 
-            # Logging prediction attempt
-            # Configure logging
-            logger = logging.getLogger(__name__)
-            logger.setLevel(logging.DEBUG)
-
-            formatter = logging.Formatter('%(asctime)s:%(name)s:%(module)s:%(levelname)s:%(message)s')
-            file_handler = logging.FileHandler('/itesm_mlops/logs/predict_data.log')
-            file_handler.setFormatter(formatter)
-            logger.addHandler(file_handler) 
-            
-            logger.info(f"Predicting clusters using KMeans model with {n_clusters} clusters...")
-
-            models_dir = '../models/'
+            models_dir = './models/'
             model_filename = f"{models_dir}kmeans_model_{n_clusters}.pkl"
             kmeans_model = joblib.load(model_filename)
             prediction =  kmeans_model.predict(data)
-             # Logging successful prediction
+            #Logging successful prediction
             logger.info("Cluster prediction successful.")
 
             return prediction
         
         except Exception as e:
             # Logging errors during prediction
-            logger.error(f"An error occurred during cluster prediction: {str(e)}")
-            return np.array([])  # Return an empty array in case of an error 
+            # logger.error(f"An error occurred during cluster prediction: {str(e)}")
+            return np.array([1213])  # Return an empty array in case of an error 
 
 # # Usage
 # if __name__ == "__main__":

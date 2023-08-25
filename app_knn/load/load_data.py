@@ -1,7 +1,19 @@
 import pandas as pd
 import os
 import logging
+import sys
 
+
+current_dir = os.getcwd()
+sys.path.append(current_dir+'/app_knn/')
+
+print('222222222222222222222222222222222222222222222')
+print(os.getcwd())
+
+print('8327e09217070937109273109710971209273109709173')
+from utilities.logging import MyLogger
+
+logger = MyLogger("Load Logs", logging.DEBUG)
 
 
 class WebDataRetriever:
@@ -23,7 +35,7 @@ class WebDataRetriever:
     ```
     """
 
-    DATASETS_DIR = './data/'  # Directory where data will be saved.
+    DATASETS_DIR = './app_knn/data/'  # Directory where data will be saved.
     RETRIEVED_DATA = 'retrieved_data.csv'  # File name for the retrieved data.
 
     def __init__(self, url, data_path, delimiter_url):
@@ -31,17 +43,8 @@ class WebDataRetriever:
         self.DATASETS_DIR = data_path
         self.delimiter_url = delimiter_url
 
-
     def retrieve_data(self):
-        # Configure logging
-        logger = logging.getLogger(__name__)
-        logger.setLevel(logging.DEBUG)
 
-        formatter = logging.Formatter('%(asctime)s:%(name)s:%(module)s:%(levelname)s:%(message)s')
-        file_handler = logging.FileHandler('load_data.log')
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler) 
- 
         try:
             # Logging data retrieval attempt
             logger.info("Retrieving data from URL...")
@@ -72,5 +75,6 @@ class WebDataRetriever:
 # Example
 URL = 'https://raw.githubusercontent.com/juanchavezs/mlops_jpcs_proyectofinal/master/marketing_campaign.csv'
 DELIMITER = '\t'
-data_retriever = WebDataRetriever(url=URL, data_path='../data/', delimiter_url=DELIMITER)
+data_retriever = WebDataRetriever(url=URL, data_path='/data/', delimiter_url=DELIMITER)
+
 data_retriever.retrieve_data()

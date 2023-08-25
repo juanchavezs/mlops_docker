@@ -3,16 +3,15 @@ import pandas as pd
 from datetime import datetime 
 import logging
 import os
+import sys
+from utilities.logging import MyLogger
 
 # Configure logging 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+current_dir = os.getcwd()
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
 
-formatter = logging.Formatter('%(asctime)s:%(name)s:%(module)s:%(levelname)s:%(message)s')
-file_handler = logging.FileHandler('/preprocess_data.log')
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler) 
-
+logger = MyLogger("Preprocess Logs", logging.DEBUG)
 
 class DataPreprocessor(BaseEstimator, TransformerMixin):
     
@@ -89,11 +88,11 @@ class DataPreprocessor(BaseEstimator, TransformerMixin):
 
 # Example Use
 
-data_transformer = DataPreprocessor()
-clustering = Clustering()
+# data_transformer = DataPreprocessor()
+# clustering = Clustering()
 
-pipeline = Pipeline([
-    ('data_transformer', data_transformer),
-])
+# pipeline = Pipeline([
+#     ('data_transformer', data_transformer),
+# ])
 
-df_transform = pipeline.fit_transform(df)
+# df_transform = pipeline.fit_transform(df)
